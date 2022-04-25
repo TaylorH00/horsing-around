@@ -45,8 +45,10 @@ public class MainPanel extends JPanel implements ActionListener {
 		btnPanel.setLayout(new GridLayout(1,3));
 		
 		btnRace = Styles.StyledJButton("RACE");
+		btnRace.addActionListener(this);
 		btnPanel.add(btnRace);
 		btnShop = Styles.StyledJButton("SHOP");
+		btnShop.addActionListener(this);
 		btnPanel.add(btnShop);
 		
 		//Create and configure bettingPanel
@@ -57,6 +59,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		txtBettingAmount.setToolTipText("Enter a whole integer amount");
 		bettingPanel.add(txtBettingAmount);
 		btnBet = Styles.StyledJButton("BET");
+		btnBet.addActionListener(this);
 		bettingPanel.add(btnBet);
 		
 		//Create and configure balancePanel
