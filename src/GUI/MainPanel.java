@@ -125,6 +125,7 @@ public class MainPanel extends JPanel implements ActionListener {
             	txtCommentator.setText(MainPanel.txtCommentator.getText() + "Congratulations! You have won $100 plus $"+App.player.getPot()+" from the pot\n");
             	App.player.increaseBalance(App.player.getPot() + 100);
             }
+            App.player.setBet(0);
             App.frame.setEnabled(true);
 		}
 	}
