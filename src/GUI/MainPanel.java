@@ -1,12 +1,11 @@
 package GUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -18,13 +17,16 @@ import Resources.Styles;
 
 public class MainPanel extends JPanel implements ActionListener {
 	public static final TrackPanel trackPanel = new TrackPanel();
+	public static Horse winner;
+	private int raceCount;
+	
 	private JButton btnRace;
 	private JButton btnShop;
 	private JButton btnBet;
 	private JTextField txtBettingAmount;
-	private JLabel lblBalance;
-	private int raceCount;
+	public static JLabel lblBalance;
 	public static JTextArea txtCommentator;
+	
 	public MainPanel() {
 		this.setMinimumSize(new Dimension(800,600));
 		this.setLayout(new BorderLayout());
@@ -34,9 +36,11 @@ public class MainPanel extends JPanel implements ActionListener {
 		JPanel controlPanel = new JPanel(new GridLayout(1,2));
 		
 		txtCommentator = new JTextArea(10, 25);
-		txtCommentator.setText("Welcome to the track! Click race to run your horse!\n");
-		JScrollPane scrollPane = new JScrollPane(txtCommentator); 
+		txtCommentator.setLineWrap(true);
+		txtCommentator.setWrapStyleWord(true);
+		txtCommentator.setText("Welcome to the track! Click RACE to watch Dunker compete against other horses! You can win money from racing and betting, so throw a couple dollars into the pot!\n");
 		txtCommentator.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(txtCommentator); 
 		controlPanel.add(scrollPane);
 		
 		
@@ -67,7 +71,7 @@ public class MainPanel extends JPanel implements ActionListener {
 		balancePanel.setLayout(new GridLayout(3,1));
 		
 		JLabel lblBalanceDesc = new JLabel("BALANCE:");
-		lblBalance = new JLabel("$" + String.valueOf(App.playerHorse.getBalance()));
+		lblBalance = new JLabel("$" + String.valueOf(App.player.getBalance()));
 		
 		balancePanel.add(bettingPanel);
 		balancePanel.add(lblBalanceDesc);
@@ -81,7 +85,7 @@ public class MainPanel extends JPanel implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == btnRace) {
-			trackPanel.beginRace();
+			beginRace();
 			raceCount++;
 			txtCommentator.setText(txtCommentator.getText() + "Race #"+raceCount+" has begun!\n");
 		}
@@ -91,15 +95,37 @@ public class MainPanel extends JPanel implements ActionListener {
 		}
 		else if(e.getSource() == btnBet) {
 			int bet = Integer.parseInt(txtBettingAmount.getText());
-			if(bet > App.playerHorse.getBalance()) {
+			txtBettingAmount.setText("");
+			if(!App.player.decreaseBalance(bet)) {
 				JOptionPane.showMessageDialog(this, "You don't have enough funds this bet.","Insufficient Funds", JOptionPane.ERROR_MESSAGE);
+				return;
 			}
-			else {
-				App.playerHorse.decreaseBalance(bet);
-				lblBalance.setText("$" +String.valueOf(App.playerHorse.getBalance()));
-				txtCommentator.setText(txtCommentator.getText() + "$" + bet + " bet has been placed!\n");
-			}
+			App.player.setBet(bet);
+			txtCommentator.setText(txtCommentator.getText() + "$" + bet + " bet has been placed!\n");
 		}
 		
+	}
+	
+	public void beginRace() {
+		this.winner = null;
+		for(GUI.Horse horse : trackPanel.Horses) {
+			Thread thread = new Thread(horse);
+			thread.start();
+		}
+		App.frame.setEnabled(false);
+	}
+	
+	//Outputs first winner to screen and updates player balance if they won
+	public static void declareWinner(Horse horse) {
+		if(winner == null) {
+			winner = horse;
+            txtCommentator.setText(MainPanel.txtCommentator.getText() + winner.getName() + " has won the race!\n");
+            if(winner == App.player.getHorse()) {
+            	//Connect to bet
+            	txtCommentator.setText(MainPanel.txtCommentator.getText() + "Congratulations! You have won $100 plus $"+App.player.getPot()+" from the pot\n");
+            	App.player.increaseBalance(App.player.getPot() + 100);
+            }
+            App.frame.setEnabled(true);
+		}
 	}
 }

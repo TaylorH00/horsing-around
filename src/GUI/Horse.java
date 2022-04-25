@@ -1,4 +1,5 @@
-package Horses;
+package GUI;
+
 import java.awt.Image;
 import java.util.Random;
 import java.util.concurrent.locks.Lock;
@@ -6,11 +7,9 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
-
 import GUI.MainPanel;
 
 public class Horse extends JComponent implements Runnable {
-	private int balance = 10;
 	private int speed = 1;
 	
 	private String name; 
@@ -19,24 +18,12 @@ public class Horse extends JComponent implements Runnable {
 	private int X_COORD = -100; 
 	private final int Y_COORD;
 	
-	public int getBalance() {
-		return balance;
-	}
-
-	public void increaseBalance(int amount) {
-		this.balance += amount;
-	}
-	
-	public void decreaseBalance(int amount) {
-		this.balance -= amount;
-	}
-	
 	public int getSpeed() {
 		return speed;
 	}
 
-	public void increaseSpeed(int delta) {
-		this.speed += delta;
+	public void incrementSpeed() {
+		this.speed++;
 	}
 	
 	public String getName() {
@@ -68,6 +55,8 @@ public class Horse extends JComponent implements Runnable {
 		this.Y_COORD = yCoord;
 	}
 	
+	//Moves horse along screen until it reaches the finish line (max-screen width)
+	// and updates MainPanel with the first winner.
 	@Override
 	public void run() {
 		Random ran = new Random();
@@ -80,12 +69,11 @@ public class Horse extends JComponent implements Runnable {
 			
 			repaintLock.lock();
 			try {
-				if(this.X_COORD >= MainPanel.trackPanel.MAX_Y)
+				if(this.X_COORD >= 800)
 		        {
 		        	finished = true;
-		            MainPanel.txtCommentator.setText(MainPanel.txtCommentator.getText() + this.name + " is the winner of the race!\n");
+		            MainPanel.declareWinner(this);
 		            this.X_COORD = -100;
-		            break;
 		        }
 				MainPanel.trackPanel.repaint();
 			}

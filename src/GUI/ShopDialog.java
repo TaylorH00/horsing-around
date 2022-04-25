@@ -1,5 +1,4 @@
 package GUI;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -8,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JSlider;
 
 import Resources.Styles;
@@ -48,18 +48,20 @@ public class ShopDialog extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String actionCommand = ((JButton) e.getSource()).getActionCommand();
 		
-		if(actionCommand == "increaseSpeed") {
-			App.playerHorse.increaseSpeed(1);
-			this.sldSpeed.setValue(App.playerHorse.getSpeed());
-			if(App.playerHorse.getSpeed() == 10) {
+		if(actionCommand == "increaseSpeed" && App.player.decreaseBalance(50)) {
+			App.player.getHorse().incrementSpeed();
+			if(App.player.getHorse().getSpeed() == 10) {
 				this.btnBuySpeed.setEnabled(false);
 			}
+			this.sldSpeed.setValue(App.player.getHorse().getSpeed());
 			return;
 		}
-		else {
-			App.playerHorse.setSprite(new ImageIcon("src\\Resources\\"+actionCommand+".png").getImage());
+		else if (App.player.decreaseBalance(100)){
+				App.player.getHorse().setSprite(new ImageIcon("src\\Resources\\"+actionCommand+".png").getImage());
+				MainPanel.trackPanel.repaint();
+				return;
 		}
-		MainPanel.trackPanel.repaint();
+		JOptionPane.showMessageDialog(this, "You don't have enough funds in your account.","Insufficient Funds", JOptionPane.ERROR_MESSAGE);
 	}
 	
 	private JButton createSolarOutfitButton() {
@@ -72,7 +74,7 @@ public class ShopDialog extends JDialog implements ActionListener {
 	}
 	
 	private JButton createRedOutfitButton() {
-		JButton btnRedHorse = Styles.StyledJButton("$50");
+		JButton btnRedHorse = Styles.StyledJButton("$100");
 		
 		btnRedHorse.setIcon(new ImageIcon(new ImageIcon("src\\Resources\\redhorse.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
 		btnRedHorse.setActionCommand("redhorse");
@@ -81,7 +83,7 @@ public class ShopDialog extends JDialog implements ActionListener {
 	}
 	
 	private JButton createDigitalOutfitButton() {
-		JButton btnDigitalHorse = Styles.StyledJButton("$300");
+		JButton btnDigitalHorse = Styles.StyledJButton("$100");
 		
 		btnDigitalHorse.setIcon(new ImageIcon(new ImageIcon("src\\Resources\\digitalhorse.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
 		btnDigitalHorse.setActionCommand("digitalhorse");
@@ -97,7 +99,7 @@ public class ShopDialog extends JDialog implements ActionListener {
 	}
 	
 	private JSlider createSpeedSlider() {
-		sldSpeed = new JSlider(1,10,App.playerHorse.getSpeed());
+		sldSpeed = new JSlider(1,10,App.player.getHorse().getSpeed());
 		this.sldSpeed.setEnabled(false);
 		sldSpeed.setPaintTicks(true);
 		sldSpeed.setPaintLabels(true);
