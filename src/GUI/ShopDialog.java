@@ -49,10 +49,11 @@ public class ShopDialog extends JDialog implements ActionListener {
 		String actionCommand = ((JButton) e.getSource()).getActionCommand();
 		
 		if(actionCommand == "increaseSpeed" && App.player.decreaseBalance(50)) {
-			App.player.getHorse().incrementSpeed();
 			if(App.player.getHorse().getSpeed() == 10) {
 				this.btnBuySpeed.setEnabled(false);
+				return;
 			}
+			App.player.getHorse().incrementSpeed();
 			this.sldSpeed.setValue(App.player.getHorse().getSpeed());
 			return;
 		}

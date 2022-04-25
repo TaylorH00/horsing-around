@@ -36,7 +36,7 @@ public class TrackPanel extends JPanel {
 	private void generateAIHorses() {
 		int yCoord = -60;
 		for(int i = 0; i<3; i++) {
-			Horses.add(new Horse("AI"+(i+1), yCoord));
+			Horses.add(new Horse("AI #"+(i+1), yCoord));
 			yCoord += 60;
 		}
 	}
