@@ -58,7 +58,8 @@ public class ShopDialog extends JDialog implements ActionListener {
 			return;
 		}
 		else if (App.player.decreaseBalance(100)){
-				App.player.getHorse().setSprite(new ImageIcon("src\\Resources\\"+actionCommand+".png").getImage());
+			
+				App.player.getHorse().setSprite(new ImageIcon(this.getClass().getResource("/Resources/"+actionCommand+".png")).getImage());
 				MainPanel.trackPanel.repaint();
 				return;
 		}
@@ -68,7 +69,7 @@ public class ShopDialog extends JDialog implements ActionListener {
 	private JButton createSolarOutfitButton() {
 		JButton btnSolarHorse = Styles.StyledJButton("$100");
 		
-		btnSolarHorse.setIcon(new ImageIcon(new ImageIcon("src\\Resources\\solarhorse.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+		btnSolarHorse.setIcon(new ImageIcon(new ImageIcon(this.getClass().getResource("/Resources/solarhorse.png")).getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
 		btnSolarHorse.setActionCommand("solarhorse");
 		btnSolarHorse.addActionListener(this);
 		return btnSolarHorse;
@@ -77,7 +78,7 @@ public class ShopDialog extends JDialog implements ActionListener {
 	private JButton createRedOutfitButton() {
 		JButton btnRedHorse = Styles.StyledJButton("$100");
 		
-		btnRedHorse.setIcon(new ImageIcon(new ImageIcon("src\\Resources\\redhorse.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+		btnRedHorse.setIcon(new ImageIcon(new ImageIcon(this.getClass().getResource("/Resources/redhorse.png")).getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
 		btnRedHorse.setActionCommand("redhorse");
 		btnRedHorse.addActionListener(this);
 		return btnRedHorse;
@@ -86,7 +87,7 @@ public class ShopDialog extends JDialog implements ActionListener {
 	private JButton createDigitalOutfitButton() {
 		JButton btnDigitalHorse = Styles.StyledJButton("$100");
 		
-		btnDigitalHorse.setIcon(new ImageIcon(new ImageIcon("src\\Resources\\digitalhorse.png").getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
+		btnDigitalHorse.setIcon(new ImageIcon(new ImageIcon(this.getClass().getResource("/Resources/digitalhorse.png")).getImage().getScaledInstance(60, 60, Image.SCALE_DEFAULT)));
 		btnDigitalHorse.setActionCommand("digitalhorse");
 		btnDigitalHorse.addActionListener(this);
 		return btnDigitalHorse;

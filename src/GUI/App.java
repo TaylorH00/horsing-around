@@ -12,10 +12,11 @@ public class App {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
 		frame.setSize(new Dimension(800,600));
 		frame.setResizable(false);
+		frame.setIconImage(new ImageIcon(App.class.getResource("/Resources/MSUIcon.png")).getImage());
 		
 		String horseName = "Dunker";
 		Horse horse = new Horse(horseName, 110);
-		horse.setSprite(new ImageIcon("src\\Resources\\defaulthorse.png").getImage());
+		horse.setSprite(new ImageIcon(App.class.getResource("/Resources/defaulthorse.png")).getImage());
 		player = new PlayerCharacter(horse);
 		
 		frame.add(new StartPanel());  

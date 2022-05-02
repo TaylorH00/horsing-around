@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import Resources.Styles;
 
 public class StartPanel extends JPanel implements ActionListener {
-	private final Image background = new ImageIcon("src\\Resources\\background.jpg").getImage();
+	private final Image background = new ImageIcon(this.getClass().getResource("/Resources/background.jpg")).getImage();
 	private GridBagConstraints gbc = new GridBagConstraints();
 	
 	public StartPanel() {

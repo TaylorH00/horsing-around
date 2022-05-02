@@ -13,7 +13,7 @@ public class Horse extends JComponent implements Runnable {
 	private int speed = 1;
 	
 	private String name; 
-	private Image sprite = new ImageIcon("src\\Resources\\oldhorse.png").getImage(); //Default AI sprite
+	private Image sprite = new ImageIcon(this.getClass().getResource("/Resources/oldhorse.png")).getImage(); //Default AI sprite
 	
 	private int X_COORD = -100; 
 	private final int Y_COORD;

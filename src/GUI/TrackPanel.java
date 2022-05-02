@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class TrackPanel extends JPanel {
-	private final ImageIcon imgTrack = new ImageIcon("src\\Resources\\track.jpg");
+	private final ImageIcon imgTrack = new ImageIcon(this.getClass().getResource("/Resources/track.jpg"));
 	
 	private final int MAX_WIDTH = 250;
 	private final int MAX_HEIGHT = 250;
